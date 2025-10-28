@@ -1,101 +1,80 @@
-import Image from "next/image";
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { Gamepad2, Clock, Download, TrendingUp } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+  useEffect(() => {
+    if (!loading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, loading, router]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="text-center mb-16">
+        <h1 className="text-5xl font-bold text-white mb-4">
+          Track Your Gaming Journey
+        </h1>
+        <p className="text-xl text-gray-400 mb-8">
+          Monitor gameplay sessions, track statistics, and backup your saves for R36S handheld
+        </p>
+        <div className="flex justify-center space-x-4">
+          <a href="/register" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium">
+            Get Started
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+          <a href="/login" className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-3 rounded-lg text-lg font-medium">
+            Sign In
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+        <div className="bg-gray-900 p-6 rounded-lg border border-gray-800">
+          <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4">
+            <Gamepad2 className="w-6 h-6 text-blue-500" />
+          </div>
+          <h3 className="text-lg font-semibold text-white mb-2">Session Tracking</h3>
+          <p className="text-gray-400">Automatically track all your gaming sessions</p>
+        </div>
+
+        <div className="bg-gray-900 p-6 rounded-lg border border-gray-800">
+          <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4">
+            <Clock className="w-6 h-6 text-green-500" />
+          </div>
+          <h3 className="text-lg font-semibold text-white mb-2">Play Time Stats</h3>
+          <p className="text-gray-400">See detailed statistics for each game</p>
+        </div>
+
+        <div className="bg-gray-900 p-6 rounded-lg border border-gray-800">
+          <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4">
+            <Download className="w-6 h-6 text-purple-500" />
+          </div>
+          <h3 className="text-lg font-semibold text-white mb-2">Save Backups</h3>
+          <p className="text-gray-400">Automatic backups of all your game saves</p>
+        </div>
+
+        <div className="bg-gray-900 p-6 rounded-lg border border-gray-800">
+          <div className="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-4">
+            <TrendingUp className="w-6 h-6 text-orange-500" />
+          </div>
+          <h3 className="text-lg font-semibold text-white mb-2">Analytics</h3>
+          <p className="text-gray-400">Visualize your gaming patterns over time</p>
+        </div>
+      </div>
     </div>
   );
 }
